@@ -1,12 +1,15 @@
 const router = require('express').Router();
+const users = require('../controller/userController.js');
 
 router.get('/', async (req, res) => {
-  res.status(200).json({ msg: 'get users works' });
+  const userData = (await users.getUsers());
+  res.status(200).json({ msg: 'get users works', data: userData });
 });
 
 router.get('/:id', async (req, res) => {
   const id = parseInt(req.params.id);
-  res.status(200).json({ msg: `get user ${id} works`});
+  const userData = await users.getUserById(id);
+  res.status(200).json({ msg: `get user ${id} works`, data: userData });
 });
 
 router.post('/', async (req, res) => {
