@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const users = require('../controller/userController.js');
+const users = require('../../controller/userController.js');
 
 router.get('/', async (req, res) => {
   const userData = (await users.getUsers());

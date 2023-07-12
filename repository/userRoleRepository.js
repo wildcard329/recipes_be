@@ -1,4 +1,4 @@
-const db = require('../config/pg.js');
+const db = require('../util/config/pg.js');
 
 const assignRole = (userId, roleId) => db.query('INSERT INTO account_roles (user_id, role_id) VALUES ($1, $2)', [userId, roleId]);
 
