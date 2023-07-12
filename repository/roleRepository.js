@@ -1,4 +1,4 @@
-const db = require('../config/pg.js');
+const db = require('../util/config/pg.js');
 
 const getRoleByRoleName = (roleName) => db.query('SELECT role_id FROM roles WHERE role_name = $1', [roleName]);
 
