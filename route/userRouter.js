@@ -13,17 +13,18 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const body = req.body;
-  res.status(200).json({ msg: `post user ${body} works`});
+  const userId = await users.addUser(req.body);
+  res.status(201).json({ msg: `post user ${body} works`, data: userId });
 });
 
 router.put('/', async (req, res) => {
-  const body = req.body;
-  res.status(200).json({ msg: `put user ${body} works`});
+  await users.updateUser(req.body);
+  res.status(200).json({ msg: `put user works`});
 });
 
 router.delete('/:id', async (req, res) => {
   const id = parseInt(req.params.id);
+  await users.removeUser(id);
   res.status(200).json({ msg: `delete user ${id} works`});
 });
 
