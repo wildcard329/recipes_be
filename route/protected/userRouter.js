@@ -14,7 +14,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const userId = await users.addUser(req.body);
-  res.status(201).json({ msg: `post user ${body} works`, data: userId });
+  res.status(201).json({ msg: `post user works`, data: userId });
 });
 
 router.put('/', async (req, res) => {
