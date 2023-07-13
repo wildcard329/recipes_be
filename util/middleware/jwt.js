@@ -1,12 +1,12 @@
+require('dotenv');
 const jwt = require('jsonwebtoken');
-const secrets = require('../../server/secret.js');
 
 const generateToken = (user) => {
   const payload = {
     userId: user.user_id,
     username: user.user_name,
   };
-  const secret = 'super secret password';
+  const secret = process.env.JWT_SECRET || 'default password';
   const options = {
     expiresIn: '6h',
   };
@@ -14,7 +14,7 @@ const generateToken = (user) => {
 };
 
 const verifyToken = (req, res, next) => {
-  const secret = secrets.jwtSecret;
+  const secret = process.env.JWT_SECRET || 'default password';
   const authHeader = req.headers.authorization;
   const token = authHeader.split(' ')[1];
   if (token) {
