@@ -2,7 +2,7 @@ const roleRepo = require('../repository/roleRepository.js');
 
 const addRole = async (roleName) => (await roleRepo.addRole(roleName)).rows[0];
 
-const getRoleByRoleName = async (roleName) => (await roleRepo.getRoleByRoleName(roleName).rows[0]);
+const getRoleByRoleName = async (roleName) => (await roleRepo.getRoleByRoleName(roleName)).rows[0].role_id;
 
 const getRoleById = async (roleId) => (await roleRepo.getRoleById(roleId).rows[0]);
 
@@ -16,4 +16,4 @@ module.exports = {
   getRoleById,
   updateRole,
   removeRole,
-}
+};

@@ -12,20 +12,21 @@ const addUser = async (user) => {
   const { username, email, password } = user;
   const timestamp = Date.now();
   const saltedPassword = bcrypt.saltPassword(password);
-  const userId = await userRepo.addUser(username, saltedPassword, email, timestamp);
+  const userId = (await userRepo.addUser({username, password: saltedPassword, email, timestamp})).rows[0].user_id;
   let roleId;
-  if (roles.getRoleByRoleName('user').rows[0] !== null) {
-    roleId = roles.getRoleByRoleName('user'),rows[0];
+  if (await roles.getRoleByRoleName('user') !== null) {
+    roleId = await roles.getRoleByRoleName('user');
   } else {
-    roleId = roles.addRole('user').rows[0];
+    roleId = await roles.addRole('user');
   };
+  
   await userRoles.assignUserRole(userId, roleId);
   return userId;
 };
 
 const loginUser = async (user) => {
   const { password, email } = user;
-  const dbUser = userRepo.getUserByEmail(email);
+  const dbUser = (await userRepo.getUserByEmail(email)).rows[0];
   if (bcrypt.comparePasswordSalt(password, dbUser.password)) {
     return jwt.generateToken(dbUser);
   } else {
@@ -35,10 +36,14 @@ const loginUser = async (user) => {
 
 const updateUser = async (user) => {
   const { username, password, id } = user;
-  await userRepo.updateUser(username, password, id);
+  const saltedPassword = bcrypt.saltPassword(password);
+  await userRepo.updateUser({ username, password: saltedPassword, id });
 };
 
-const removeUser = async (id) => await userRepo.removeUser(id);
+const removeUser = async (id) => {
+  await userRoles.removeUserRole(id);
+  await userRepo.removeUser(id);
+}
 
 module.exports = {
   addUser,
