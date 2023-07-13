@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const serverRes = require('./res.js');
 
 const generateToken = (user) => {
   const payload = {
@@ -16,18 +17,20 @@ const generateToken = (user) => {
 const verifyToken = (req, res, next) => {
   const secret = process.env.JWT_SECRET || 'default password';
   const authHeader = req.headers.authorization;
-  const token = authHeader.split(' ')[1];
+  const token = authHeader?.split(' ')[1];
   if (token) {
     jwt.verify(token, secret, (error, decodedToken) => {
       if (error) {
-        res.status(401).json({ msg: 'Authentication required. Please log in to continue.' });
+        const errMsg = { msg: 'Authentication required. Please log in to continue.' };
+        serverRes.sendRes(res, 401, errMsg);
       } else {
         req.decodedToken = decodedToken;
         next();
       };
     });
   } else {
-    res.status(400).json({ msg: 'invalid credentials' });
+    const errMsg = { msg: 'invalid credentials' };
+    serverRes.sendRes(res, 400, errMsg);
   };
 };
 
