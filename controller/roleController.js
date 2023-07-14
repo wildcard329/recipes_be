@@ -1,14 +1,80 @@
 const roleRepo = require('../repository/roleRepository.js');
+const codes = require('../util/config/serverCodes.json');
 
-const addRole = async (roleName) => (await roleRepo.addRole(roleName)).rows[0];
+const success = codes.success.serverOk;
+const created = codes.success.serverCreated;
 
-const getRoleByRoleName = async (roleName) => (await roleRepo.getRoleByRoleName(roleName)).rows[0].role_id;
+const serverError = codes.serverErrors.serverInternalError;
 
-const getRoleById = async (roleId) => (await roleRepo.getRoleById(roleId).rows[0]);
+const addRole = async (roleName) => {
+  let status, resData;
+  try {
+    const roleId = (await roleRepo.addRole(roleName)).rows[0];
+    status = created.code;
+    resData = { msg: created.msg, data: roleId };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
 
-const updateRole = async (roleName, roleId) => (await roleRepo.updateRole(roleName, roleId));
+const getRoleByRoleName = async (roleName) => {
+  let status, resData;
+  try {
+    const roleId = (await roleRepo.getRoleByRoleName(roleName)).rows[0].role_id;
+    status = success.code;
+    resData = { msg: success.msg, data: roleId };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
 
-const removeRole = async (roleId) => (await roleRepo.removeRole(roleId));
+const getRoleById = async (roleId) => {
+  let status, resData;
+  try {
+    const role = (await roleRepo.getRoleById(roleId).rows[0]);
+    status = success.code;
+    resData = { msg: success.msg, data: { ...role }};
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
+
+const updateRole = async (roleName, roleId) => {
+  let status, resData;
+  try {
+    (await roleRepo.updateRole(roleName, roleId));
+    status = success.code;
+    resData = { msg: success.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
+
+const removeRole = async (roleId) => {
+  let status, resData;
+  try {
+    (await roleRepo.removeRole(roleId));
+    status = success.code;
+    resData = { msg: success.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
 
 module.exports = {
   addRole,

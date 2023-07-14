@@ -1,10 +1,49 @@
 const userRoleRepo = require('../repository/userRoleRepository.js');
+const codes = require('../util/config/serverCodes.json');
 
-const assignUserRole = async (userId, roleId) => (await userRoleRepo.assignRole(userId, roleId));
+const success = codes.success.serverOk;
+const serverError = codes.serverErrors.serverInternalError;
 
-const updateUserRole = async (userId, roleId) => (await userRoleRepo.updateRole(userId, roleId));
+const assignUserRole = async (userId, roleId) => {
+  let status, resData;
+  try {
+    (await userRoleRepo.assignRole(userId, roleId));
+    status = success.code;
+    resData = { msg: success.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
 
-const removeUserRole = async (userId) => (await userRoleRepo.removeRoleRecord(userId));
+const updateUserRole = async (userId, roleId) => {
+  let status, resData;
+  try {
+    (await userRoleRepo.updateRole(userId, roleId));
+    status = success.code;
+    resData = { msg: serverError.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.msg;
+    resData = { msg: serverError.msg };
+  };
+};
+
+const removeUserRole = async (userId) => {
+  let status, resData;
+  try {
+    (await userRoleRepo.removeRoleRecord(userId));
+    status = success.code;
+    resData = { msg: success.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
 
 module.exports = {
   assignUserRole,
