@@ -1,0 +1,72 @@
+{
+  "information": {
+    "serverContinue": {
+      "code": 100,
+      "msg": "continue"
+    },
+    "serverSwitchingProtocols": {
+      "code": 101,
+      "msg": "switching protocols"
+    },
+    "serverProcessing": {
+      "code": 102,
+      "msg": "processing"
+    }
+  },
+  "success": {
+    "serverOk": {
+      "code": 200,
+      "msg": "ok"
+    },
+    "serverCreated": {
+      "code": 201,
+      "msg": "created"
+    },
+    "serverNoContent": {
+      "code": 204,
+      "msg": "no content"
+    }
+  },
+  "redirection": {
+    "serverMovedPermanently": {
+      "code": 301,
+      "msg": "moved permanently"
+    },
+    "serverFound": {
+      "code": 302,
+      "msg": "found"
+    },
+    "serverNotModified": {
+      "code": 304,
+      "msg": "not modified"
+    }
+  },
+  "clientErrors": {
+    "serverBadRequest": {
+      "code": 400,
+      "msg": "bad request" 
+    },
+    "serverUnauthorized": {
+      "code": 401,
+      "msg": "unauthorized" 
+    },
+    "serverNotFound": {
+      "code": 404,
+      "msg": "not found" 
+    }
+  },
+  "serverErrors": {
+    "serverInternalError": {
+      "code": 500,
+      "msg": "internal server error" 
+    },
+    "serverServiceUnavailable": {
+      "code": 503,
+      "msg": "service unavailable" 
+    },
+    "serverGatewayTimeout": {
+      "code": 504,
+      "msg": "gateway timeout" 
+    }
+  }
+}

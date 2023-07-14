@@ -3,47 +3,129 @@ const roles = require('./roleController.js');
 const userRoles = require('./userRoleController.js');
 const bcrypt = require('../util/middleware/bcrypt.js');
 const jwt = require('../util/middleware/jwt.js');
+const codes = require('../util/config/serverCodes.json');
 
-const getUsers = async () => (await userRepo.getUsers()).rows;
+const success = codes.success.serverOk;
+const created = codes.success.serverCreated;
 
-const getUserById = async (id) => ((await userRepo.getUserById(id)).rows[0]);
+const clientError = codes.clientErrors.serverBadRequest;
+const clientUnauthorized = codes.clientErrors.serverUnauthorized;
+const serverError = codes.serverErrors.serverInternalError;
+
+const getUsers = async () => {
+  let status, resData;
+  try {
+    const users = (await userRepo.getUsers()).rows;
+    status = success.code;
+    resData = { msg: success.msg, data: users };
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      status = clientError.code;
+      resData = { msg: clientError.msg };
+    } else {
+      console.error(serverError.msg, error);
+      status = serverError.code;
+      resData = { msg: serverError.msg };
+    };
+  };
+  return { status, resData };
+};
+
+const getUserById = async (id) => {
+  let status, resData;
+  try {
+    const user = ((await userRepo.getUserById(id)).rows[0]);
+    status = success.code;
+    resData = { msg: success.msg, data: user };
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      status = clientError.code;
+      resData = { msg: clientError.msg };
+    } else {
+      console.error(serverError.msg, error);
+      status = serverError.code;
+      resData = { msg: serverError.msg };
+    };
+  };
+  return { status, resData };
+}
 
 const addUser = async (user) => {
-  const { username, email, password } = user;
-  const timestamp = Date.now();
-  const saltedPassword = bcrypt.saltPassword(password);
-  const userId = (await userRepo.addUser({username, password: saltedPassword, email, timestamp})).rows[0].user_id;
-  let roleId;
-  if (await roles.getRoleByRoleName('user') !== null) {
-    roleId = await roles.getRoleByRoleName('user');
-  } else {
-    roleId = await roles.addRole('user');
+  let status, resData;
+  try {
+    const { username, email, password } = user;
+    const timestamp = Date.now();
+    const saltedPassword = bcrypt.saltPassword(password);
+    const userId = (await userRepo.addUser({username, password: saltedPassword, email, timestamp})).rows[0].user_id;
+    let roleId;
+    if (await roles.getRoleByRoleName('user') !== null) {
+      roleId = await roles.getRoleByRoleName('user');
+    } else {
+      roleId = await roles.addRole('user');
+    };
+    await userRoles.assignUserRole(userId, roleId);
+    status = created.code;
+    resData = { msg: created.msg, data: userId }
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
   };
-  
-  await userRoles.assignUserRole(userId, roleId);
-  return userId;
+  return { status, resData };
 };
 
 const loginUser = async (user) => {
+  let status, resData, token;
   const { password, email } = user;
-  const dbUser = (await userRepo.getUserByEmail(email)).rows[0];
-  if (bcrypt.comparePasswordSalt(password, dbUser.password)) {
-    return jwt.generateToken(dbUser);
-  } else {
-    return false;
+  try {
+    const dbUser = (await userRepo.getUserByEmail(email)).rows[0];
+    const correctPassword = bcrypt.comparePasswordSalt(password, dbUser.password);
+    if (correctPassword) {
+      token = jwt.generateToken(dbUser);
+      resData = { msg: success.msg, data: token };
+      status = created.code;
+    } else {
+      resData = { msg: clientUnauthorized.msg }
+      status = clientUnauthorized.code;
+    }
+  } catch (error) {
+    console.error(error);
+    resData = { msg: serverError.msg };
+    status = serverError.code;
   };
+  return { status, resData };
 };
 
 const updateUser = async (user) => {
+  let status, resData;
   const { username, password, id } = user;
   const saltedPassword = bcrypt.saltPassword(password);
-  await userRepo.updateUser({ username, password: saltedPassword, id });
+  try {
+    await userRepo.updateUser({ username, password: saltedPassword, id });
+    status = success.code;
+    resData = { msg: success.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
 };
 
 const removeUser = async (id) => {
-  await userRoles.removeUserRole(id);
-  await userRepo.removeUser(id);
-}
+  let status, resData;
+  try {
+    await userRoles.removeUserRole(id);
+    await userRepo.removeUser(id);
+    status = success.code;
+    resData = { msg: success.msg };
+  } catch (error) {
+    console.error(error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+  };
+  return { status, resData };
+};
 
 module.exports = {
   addUser,
