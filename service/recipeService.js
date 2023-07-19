@@ -8,10 +8,16 @@ const addRecipe = async (recipe) => {
   const recipeId = (await recipeRepo.addRecipe(recipeName, recipeDescription, recipeImageName, userId, prepTime, cookTime, totalTime)).rows;
   recipeIngredients.forEach(async ingredient => {
     if (!!ingredient.unit) {
-      recipeIngredientsService.addRecipeIngredient(recipeId, ingredient.ingredientId, ingredient.unit.unitId, ingredient.quantity);
+      await recipeIngredientsService.addRecipeIngredient(recipeId, ingredient.ingredientId, ingredient.unit.unitId, ingredient.quantity);
     } else {
-      recipeIngredientsService.addRecipeIngredientWithoutUnit(recipeId, ingredient.ingredientId, ingredient.quantity);
+      await recipeIngredientsService.addRecipeIngredientWithoutUnit(recipeId, ingredient.ingredientId, ingredient.quantity);
     };
+  });
+  recipeCategories.forEach(async (category) => {
+    await null;
+  });
+  recipeInstructions.forEach(async (instruction) => {
+    await null;
   });
   return recipeId;
 };
@@ -41,8 +47,6 @@ const updateRecipe = async (recipe) => {
     };
   });
 };
-
-
 
 module.exports = {
   addRecipe,
