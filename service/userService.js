@@ -14,12 +14,12 @@ const addUser = async (user) => {
   const saltedPassword = bcrypt.saltPassword(password);
   const userId = (await userRepo.addUser({username, password: saltedPassword, email, timestamp})).rows[0].user_id;
   let roleId;
-  const { resData: roleData } = await roles.getRoleByRoleName('user');
-  if (roleData.data !== null) {
-    roleId = roleData.data;
+  const userRoleId = await roles.getRoleByRoleName('user');
+  if (userRoleId !== null) {
+    roleId = userRoleId;
   } else {
-    const { resData: newRole } = await roles.addRole('user');
-    roleId = newRole.data;
+    const newRoleId = await roles.addRole('user');
+    roleId = newRoleId;
   };
   await userRoles.assignUserRole(userId, roleId);
   return userId;
