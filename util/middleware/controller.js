@@ -15,6 +15,7 @@ const controllerOperationReData = async (cb, cbArg) => {
     status = success.code;
     resData = { msg: success.msg, data: controlData };
   } catch (error) {
+    console.error(error);
     if (error instanceof NotFoundError) {
       status = clientError.code;
       resData = { msg: clientError.msg };
