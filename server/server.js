@@ -8,6 +8,7 @@ const auth = require('../route/public/authRoute.js');
 const publicCategories = require('../route/public/categoryRouter.js');
 const publicIngredients = require('../route/public/ingredientRoute.js');
 const publicRecipes = require('../route/public/recipesRouter.js');
+const publicUnits = require('../route/public/unitRouter.js');
 const users = require('../route/protected/userRouter.js');
 
 // private routes
@@ -27,10 +28,11 @@ server.use('/api/auth', auth);
 server.use('/api/categories', publicCategories);
 server.use('/api/ingredients', publicIngredients);
 server.use('/api/recipes', publicRecipes);
+server.use('/api/units', publicUnits);
 server.use('/api/private/recipes', verifyToken, privateRecipes);
 server.use('/api/private/subRecipes', verifyToken, privateSubRecipes);
 server.use('/api/private/ingredients', verifyToken, privateIngredients);
 server.use('/api/private/categories', verifyToken, privateCatagories);
-server.use('/api/units', verifyToken, privateUnits);
+server.use('/api/private/units', verifyToken, privateUnits);
 
 module.exports = server;
