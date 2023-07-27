@@ -1,6 +1,6 @@
 const db = require('../util/config/pg.js');
 
-const addIngredient = (ingredientName) => db.query('INSERT INTO ingredients (ingredient_name) VALUES ($1) RETURNING ingredient_id', [ingredientName]);
+const addIngredient = ({ ingredientName }) => db.query('INSERT INTO ingredients (ingredient_name) VALUES ($1) RETURNING ingredient_id', [ingredientName]);
 
 const deleteIngredient = (ingredientId) => db.query('DELETE FROM ingredients WHERE ingredient_id = $1', [ingredientId]);
 

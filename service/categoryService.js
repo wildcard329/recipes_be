@@ -1,4 +1,4 @@
-const categoryRepo = require('../repository/');
+const categoryRepo = require('../repository/categoryRepository');
 
 const addCategory = async (categoryName) => await null;
 

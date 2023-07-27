@@ -1,4 +1,4 @@
-const subRecipeService = require('../service/');
+const subRecipeService = require('../service/subRecipeService.js');
 const controllerFn = require('../util/middleware/controller.js');
 
 const addRecipe = async (recipe) => await controller.controllerOperationReData(subRecipeService.addRecipe, recipe);
