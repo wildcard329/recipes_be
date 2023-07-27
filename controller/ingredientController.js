@@ -5,6 +5,7 @@ const addIngredient = async (ingredient) => await controller.controllerOperation
 
 const deleteIngredient = async (ingredientId) => await controller.controllerOperationNoData(ingredientService.deleteIngredient, ingredientId);
 
+// may remove, need search ingredients and may not need get ingredients
 const getIngredients = async () => await controller.controllerOperationReData(ingredientService.getIngredients);
 
 const updateIngredient = async (ingredient) => await controller.controllerOperationNoData(ingredientService.updateIngredient, ingredient);
