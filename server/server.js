@@ -3,11 +3,13 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const { verifyToken } = require('../util/middleware/jwt.js');
+
 // public routes
 const auth = require('../route/public/authRoute.js');
 const publicCategories = require('../route/public/categoryRouter.js');
 const publicIngredients = require('../route/public/ingredientRoute.js');
 const publicRecipes = require('../route/public/recipesRouter.js');
+const publicSubRecipes = require('../route/public/subRecipeRouter.js');
 const publicUnits = require('../route/public/unitRouter.js');
 const users = require('../route/protected/userRouter.js');
 
@@ -28,6 +30,7 @@ server.use('/api/auth', auth);
 server.use('/api/categories', publicCategories);
 server.use('/api/ingredients', publicIngredients);
 server.use('/api/recipes', publicRecipes);
+server.use('/api/subRecipes', publicSubRecipes);
 server.use('/api/units', publicUnits);
 server.use('/api/private/recipes', verifyToken, privateRecipes);
 server.use('/api/private/subRecipes', verifyToken, privateSubRecipes);
