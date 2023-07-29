@@ -1,15 +1,15 @@
 const subRecipeService = require('../service/subRecipeService.js');
-const controllerFn = require('../util/middleware/controller.js');
+const controller = require('../util/middleware/controller.js');
 
-const addRecipe = async (recipe) => await controller.controllerOperationReData(subRecipeService.addRecipe, recipe);
+const addRecipe = async (recipe) => await controller.controllerOperationReData(subRecipeService.addSubRecipe, recipe);
 
-const deleteRecipe = async (id) => await controller.controllerOperationNoData(subRecipeService.deleteRecipe, id);
+const deleteRecipe = async (id) => await controller.controllerOperationNoData(subRecipeService.deleteSubRecipe, id);
 
-const getRecipes = async () => await controller.controllerOperationReData(subRecipeService.getRecipes);
+const getRecipes = async () => await controller.controllerOperationReData(subRecipeService.getSubRecipes);
 
-const getRecipeById = async (id) => await controller.controllerOperationReData(subRecipeService.getRecipeById, id);
+const getRecipeById = async (id) => await controller.controllerOperationReData(subRecipeService.getSubRecipeById, id);
 
-const updateRecipe = async (recipe) => await controller.controllerOperationNoData(subRecipeService.updateRecipe, recipe);
+const updateRecipe = async (recipe) => await controller.controllerOperationNoData(subRecipeService.updateSubRecipe, recipe);
 
 module.exports = {
   addRecipe,
