@@ -14,9 +14,7 @@ const deleteSubRecipeIngredients = (subRecipeId) => {
   repo.deleteSubRecipeIngredients(subRecipeId);
 };
 
-const getSubRecipeIngredients = (subRecipeId) => {
-  repo.getSubRecipeIngredients(subRecipeId);
-};
+const getSubRecipeIngredients = async (subRecipeId) => await (await repo.getSubRecipeIngredients(subRecipeId)).rows;
 
 module.exports = {
   addSubRecipeIngredients,
