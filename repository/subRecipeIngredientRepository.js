@@ -4,7 +4,7 @@ const addSubRecipeIngredient = ({ subRecipeId, ingredientId, unitId, amount }) =
 
 const deleteSubRecipeIngredients = (subRecipeId) => db.query('DELETE FROM sub_recipe_ingredients WHERE sub_recipe_id = $1', [subRecipeId]);
 
-const getSubRecipeIngredients = (subRecipeId) => db.query('SELECT quantity, i.*, u.* FROM sub_recipe_ingredients sri JOIN sub_recipes sr ON sr.sub_recipe_id = sri.sub_recipe_id JOIN ingredients i ON i.ingredient_id = sri.ingredient_id JOIN measuring_units u ON u.unit_id = sri.unit_id WHERE sri.sub_recipe_id = sr.sub_recipe_id', [subRecipeId]);
+const getSubRecipeIngredients = (subRecipeId) => db.query('SELECT quantity, i.*, u.* FROM sub_recipe_ingredients sri JOIN sub_recipes sr ON sr.sub_recipe_id = sri.sub_recipe_id JOIN ingredients i ON i.ingredient_id = sri.ingredient_id JOIN measuring_units u ON u.unit_id = sri.unit_id WHERE sr.sub_recipe_id = $1', [subRecipeId]);
 
 module.exports = {
   addSubRecipeIngredient,

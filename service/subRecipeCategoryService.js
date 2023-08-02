@@ -4,7 +4,7 @@ const addSubRecipeCategory = async (subRecipeId, categoryId) => await repo.addSu
 
 const deleteSubRecipeCategories = async (subRecipeId) => await repo.deleteSubRecipeCategories(subRecipeId);
 
-const getSubRecipeCategories = async (subRecipeId) => await repo.getSubRecipeCategories(subRecipeId).rows[0];
+const getSubRecipeCategories = async (subRecipeId) => await (await repo.getSubRecipeCategories(subRecipeId)).rows;
 
 module.exports = {
   addSubRecipeCategory,
