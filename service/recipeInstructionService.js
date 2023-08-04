@@ -1,10 +1,10 @@
-const instructionRepo = require('../repository/');
+const instructionRepo = require('../repository/recipeInstructionRepository.js');
 
-const addRecipeInstruction = (instruction) => null;
+const addRecipeInstruction = ({ recipeId, stepNumber, stepDescription }) => instructionRepo.addRecipeInstruction({ recipeId, stepNumber, stepDescription });
 
-const deleteRecipeInstructions = (recipeId) => null;
+const deleteRecipeInstructions = (recipeId) => instructionRepo.deleteRecipeInstructions(recipeId);
 
-const getRecipeInstructions = (recipeId) => null;
+const getRecipeInstructions = async (recipeId) => (await instructionRepo.getRecipeInstructions(recipeId)).rows;
 
 module.exports = {
   addRecipeInstruction,
