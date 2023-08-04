@@ -41,7 +41,7 @@ const _addCategories = async (categories) => {
 
 const _deleteIngredients = async (recipeId) => await subRecipeIngredientService.deleteSubRecipeIngredients(recipeId);
 
-const _deleteInstructions = async (recipeId) => await subRecipeCategoryService.deleteSubRecipeCategories(recipeId);
+const _deleteInstructions = async (recipeId) => await subRecipeInstructionService.deleteSubRecipeInstructions(recipeId);
 
 const _deleteRecipeCategories = async (recipeId) => await subRecipeCategoryService.deleteSubRecipeCategories(recipeId);
 
@@ -67,7 +67,7 @@ const getSubRecipeById = async (subRecipeId) => {
   const ingredients = await subRecipeIngredientService.getSubRecipeIngredients(id);
   const categories = await subRecipeCategoryService.getSubRecipeCategories(id);
   const instructions = await subRecipeInstructionService.getSubRecipeInstructions(id);
-  return { ...subRecipe, ingredients, categories, instructions };
+  return { ...subRecipe, ingredients, instructions, categories };
 };
 
 const getSubRecipes = async () => (await subRecipeRepo.getSubRecipes()).rows;
