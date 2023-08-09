@@ -12,6 +12,8 @@ const addRecipeIngredient = async ({ recipeId, ingredientId, unitId, quantity })
 
 const addRecipeIngredientWithoutUnit = async (recipeId, ingredientId, quantity) => await recipeIngredientsRepo.addRecipeIngredientWithoutUnit(recipeId, ingredientId, quantity);
 
+const addRecipeIngredientWithoutAmount = async (recipeId, ingredientId) => await recipeIngredientsRepo.addRecipeIngredientWithoutAmount(recipeId, ingredientId);
+
 const deleteRecipeIngredients = async (recipeId) => await recipeIngredientsRepo.deleteRecipeIngredients(recipeId);
 
 const getRecipeIngredients = async (recipeId) => await (await recipeIngredientsRepo.getRecipeIngredients(recipeId)).rows;
@@ -19,6 +21,7 @@ const getRecipeIngredients = async (recipeId) => await (await recipeIngredientsR
 module.exports = {
   addRecipeIngredient,
   addRecipeIngredientWithoutUnit,
+  addRecipeIngredientWithoutAmount,
   deleteRecipeIngredients,
   getRecipeIngredients,
 };

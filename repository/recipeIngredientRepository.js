@@ -4,6 +4,8 @@ const addRecipeIngredient = (recipeId, ingredientId, unitId, amount) => db.query
 
 const addRecipeIngredientWithoutUnit = (recipeId, ingredientId, amount) => db.query('INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES ($1, $2, $3)', [recipeId, ingredientId, amount]);
 
+const addRecipeIngredientWithoutAmount = (recipeId, ingredientId) => db.query('INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES ($1, $2)', [recipeId, ingredientId]);
+
 const deleteRecipeIngredients = (recipeId) => db.query('DELETE FROM recipe_ingredients WHERE recipe_id = $1', [recipeId]);
 
 const getRecipeIngredients = (recipeId) => db.query('SELECT quantity, i.*, u.* FROM recipe_ingredients ri JOIN recipes r ON r.recipe_id = ri.recipe_id JOIN ingredients i ON i.ingredient_id = ri.ingredient_id JOIN measuring_units u ON u.unit_id = ri.unit_id WHERE ri.recipe_id = $1', [recipeId]);
@@ -11,6 +13,7 @@ const getRecipeIngredients = (recipeId) => db.query('SELECT quantity, i.*, u.* F
 module.exports = {
   addRecipeIngredient,
   addRecipeIngredientWithoutUnit,
+  addRecipeIngredientWithoutAmount,
   deleteRecipeIngredients,
   getRecipeIngredients
 };

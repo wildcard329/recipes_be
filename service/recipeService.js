@@ -17,9 +17,9 @@ const _addIngredients = async (recipeId, ingredients) => {
     if (!isNaN(recipeId)  && !isNaN(ingredientId) && !isNaN(quantity) && !isNaN(unitId)) {
       await recipeIngredientService.addRecipeIngredient(recipeId, ingredientId, unitId, quantity);
     } else if (!isNaN(recipeId) && !isNaN(ingredientId) && !isNaN(quantity)) {
-      await recipeIngredientService.addRecipeIngredient(recipeId, ingredientId, quantity);
+      await recipeIngredientService.addRecipeIngredientWithoutUnit(recipeId, ingredientId, quantity);
     } else if (!isNaN(recipeId) && !isNaN(ingredientId)) {
-      await recipeIngredientService.addRecipeIngredient(recipeId, ingredientId);
+      await recipeIngredientService.addRecipeIngredientWithoutAmount(recipeId, ingredientId);
     };
   };
 };

@@ -16,14 +16,16 @@ const controllerOperationReData = async (cb, cbArg) => {
     resData = { msg: success.msg, data: controlData };
   } catch (error) {
     console.error(error);
-    if (error instanceof NotFoundError) {
-      status = clientError.code;
-      resData = { msg: clientError.msg };
-    } else {
-      console.error(serverError.msg, error);
-      status = serverError.code;
-      resData = { msg: serverError.msg };
-    };
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+    // if (error instanceof NotFoundError) {
+    //   status = clientError.code;
+    //   resData = { msg: clientError.msg };
+    // } else {
+    //   console.error(serverError.msg, error);
+    //   status = serverError.code;
+    //   resData = { msg: serverError.msg };
+    // };
   };
   return { status, resData };
 };
@@ -35,14 +37,17 @@ const controllerOperationNoData = async (cb, cbArg) => {
     status = success.code;
     resData = { msg: success.msg };
   } catch (error) {
-    if (error instanceof NotFoundError) {
-      status = clientError.code;
-      resData = { msg: clientError.msg };
-    } else {
-      console.error(serverError.msg, error);
-      status = serverError.code;
-      resData = { msg: serverError.msg };
-    };
+    console.error(serverError.msg, error);
+    status = serverError.code;
+    resData = { msg: serverError.msg };
+    // if (error instanceof NotFoundError) {
+    //   status = clientError.code;
+    //   resData = { msg: clientError.msg };
+    // } else {
+    //   console.error(serverError.msg, error);
+    //   status = serverError.code;
+    //   resData = { msg: serverError.msg };
+    // };
   };
   return { status, resData };
 };
